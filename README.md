@@ -140,21 +140,77 @@ A domain-wide GPO named _Auto Lock Screen_ was created and linked at the domain 
 
 ## Client Configuration
 
-_In progress to be documented upon completion._
+I chose Windows 11 Pro for a client machine as this allows me to use a common and up to date operating system. This virtual machine was created using the same KVM/virt-install process as the server, with VirtIO storage drivers loaded during installation.
+
+---
+
+### Domain Join
+
+Before joining the domain I pointed the client's DNS at the Domain Controller (`192.168.122.10`) to ensure that it could resolve `lab.local`.
+
+![Client DNS configuration](images/10-client-dns.png)
+
+The client was then joined to the domain via **System → Advanced System Settings → Computer Name → Change**, selecting Domain and entering `lab.local`. Domain Admin credentials were used to authorise the join.
+
+![Domain join screen](images/11-domain-join.png)
+
+---
+
+### Domain User Login
+
+After restarting, the client was logged into using a domain user account for the first time. Windows created a local profile for the user on first login.
+
+![Domain user login](images/12-domain-login.png)
+
+---
+
+### GPO Verification
+
+Group Policy application was checked using `gpresult /r` in Command Prompt. The output confirmed:
+
+- Group Policy was applied from `WIN25-DC.lab.local`
+- The user is a member of the **IT Staff** security group
+- The **Auto Lock Screen** GPO is applying at the computer level
+- IT staff are correctly exempt from the Control Panel restriction GPO
+
+![gpresult /r output](images/13-gpresult.png)
+
+---
+
+### DHCP Verification
+
+After configuring the DHCP scope on the Domain Controller, libvirt's built-in DHCP range was adjusted to `192.168.122.2-99` to avoid any conflicts. The client successfully obtained an IP address from the DC's DHCP scope (`192.168.122.100-200`), confirmed using `ipconfig /all`.
+
+![ipconfig /all showing DHCP from DC](images/14-dhcp-verify.png)
+
+---
+
+### Mapped Drives
+
+GPO drive mapping was configured so that each security group automatically receives the correct mapped drive on login.
+
+| Security Group | Drive Letter | Share                  |
+| -------------- | ------------ | ---------------------- |
+| IT Staff       | I:           | `\\win25-dc\IT`        |
+| Marketing      | M:           | `\\win25-dc\Marketing` |
+| Sales          | S:           | `\\win25-dc\Sales`     |
+
+![Mapped drives in File Explorer](images/15-mapped-drives.png)
 
 ---
 
 ## Next Steps
 
-- Configure DHCP scope on the Domain Controller and validate client receives IP from DC
-- Complete Windows 11 Pro client setup and join `client1` to the `lab.local` domain
-- Log into the client with a domain user account and verify domain join
-- Verify GPO application on client machines using `gpresult /r` and `gpupdate /force`
-- Deploy a second Windows 11 Pro client VM (`client2`)
-- Set up shared folders with NTFS and share permissions, mapped via GPO
-- Practice common AD troubleshooting scenarios: account lockouts, GPO not applying, DNS resolution failures
-- Create a DHCP reservation for the Domain Controller
-- Explore PowerShell for AD administration (bulk user creation, password resets, group management)
+- [x] Configure DHCP scope on the Domain Controller and validate client receives IP from DC
+- [x] Complete Windows 11 Pro client setup and join `client1` to the `lab.local` domain
+- [x] Log into the client with a domain user account and verify domain join
+- [x] Verify GPO application on client machines using `gpresult /r` and `gpupdate /force`
+- [x] Set up shared folders with NTFS and share permissions, mapped via GPO
+- [ ] Deploy a second Windows 11 Pro client VM (`client2`)
+- [ ] Practice common AD troubleshooting scenarios: account lockouts, GPO not applying, DNS resolution failures
+- [ ] Create a DHCP reservation for the Domain Controller
+- [ ] Explore PowerShell for AD administration (bulk user creation, password resets, group management)
+- [ ] Set up and configure osTicket helpdesk for LabCorp IT support
 
 ---
 
