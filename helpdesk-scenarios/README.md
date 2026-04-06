@@ -21,6 +21,12 @@ The user had entered their password incorrectly multiple times, triggering the a
 **Resolution:**
 Located the user account in Active Directory Users and Computers. Unlocked the account via the Account tab and reset the password to a temporary one with User must change password at next logon enabled. Confirmed with the user that they were able to log in successfully and set their own new password.
 
+| Ticket                                              | Finding the User                                                  | Target Action                                             | Unlocking Account                                                 |
+| --------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------- |
+| ![Ticket 001](images/Ticket%20001/Ticket%20001.png) | ![Finding the user](images/Ticket%20001/Finding%20the%20user.png) | ![Target Action](images/Ticket%20001/Target%20Action.png) | ![Unlocking account](images/Ticket%20001/Unlocking%20account.png) |
+
+---
+
 ### Ticket #002 - Chris T: Staff Drive Not Mapping
 
 **Reported Issue:**
@@ -31,6 +37,10 @@ The GPO drive mapping was set up incorrectly. The item-level targeting groups ha
 
 **Resolution:**
 Updated the item-level targeting to use verified AD group names selected via Check Names. Added the relevant groups to the NTFS security permissions on the Staff shared folder. Enabled Run in logged-on user's security context on the preference item and changed the action to Update. Ran `gpupdate /force` on the client machine and confirmed the N: drive mapped successfully on next login.
+
+| Ticket                                              | Updating the Drive Action                                                             | Verifying                                        |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| ![Ticket 002](images/Ticket%20002/Ticket%20002.png) | ![Updating the drive action](images/Ticket%20002/Updating%20the%20drive%20action.png) | ![Verifying](images/Ticket%20002/Verfifying.png) |
 
 ---
 
@@ -45,6 +55,10 @@ The Marketing group had not been granted permissions on the Staff shared folder.
 **Resolution:**
 Added the Marketing group to the Staff folder NTFS security permissions with Read and Change access. Verified the fix by refreshing File Explorer on the client machine and confirming the user was able to open and access the folder successfully.
 
+| Ticket                                              | Added Marketing Group                                                       |
+| --------------------------------------------------- | --------------------------------------------------------------------------- |
+| ![Ticket 003](images/Ticket%20003/Ticket%20003.png) | ![Added Marketing Group](images/Ticket%20003/Added%20Marketing%20Group.png) |
+
 ---
 
 ### Ticket #004 - Mark K: Wallpaper Not Applying
@@ -57,3 +71,7 @@ The Background Image GPO did not have the correct groups added to its security f
 
 **Resolution:**
 Updated the Background Image GPO security filtering to include IT Staff, Marketing, and Sales, and ensured each group had Read access via the Delegation tab. Moved the wallpaper image into `\\lab.local\SYSVOL\lab.local\` to ensure it is accessible by all domain users. Confirmed the wallpaper applied correctly after the user logged off and back on.
+
+| Ticket                                              | Background Image                                                | GPO                                 |
+| --------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------- |
+| ![Ticket 004](images/Ticket%20004/Ticket%20004.png) | ![Background Image](images/Ticket%20004/Background%20Image.png) | ![GPO](images/Ticket%20004/GPO.png) |
