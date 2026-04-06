@@ -10,7 +10,7 @@ Using my Active Directory (AD) home lab, I have been practising troubleshooting 
 
 ## Common Issues
 
-### Ticket #001 - Jordan P: Account Locked Out / Password Reset
+### Ticket #001 - Alex S: Account Locked Out / Password Reset
 
 **Reported Issue:**
 User reported they were unable to log into their machine, receiving an account locked out error when attempting to sign in.
